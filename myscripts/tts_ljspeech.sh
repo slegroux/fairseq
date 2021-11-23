@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# 10/2021 (c) Sylvain Le Groux <syl20@cisco.com>
 
 AUDIO_DATA_ROOT=$DATA/en/LJSpeech-1.1
 AUDIO_MANIFEST_ROOT=$AUDIO_DATA_ROOT
@@ -22,6 +23,7 @@ if [ $stage -eq 1 ]; then
 	--audio-manifest-root ${AUDIO_MANIFEST_ROOT} \
 	--output-root ${FEATURE_MANIFEST_ROOT} \
 	--ipa-vocab --use-g2p
+	
 fi
 
 if [ $stage -eq 2 ]; then

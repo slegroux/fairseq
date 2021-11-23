@@ -11,7 +11,7 @@ from pathlib import Path
 from collections import defaultdict
 
 import pandas as pd
-from torchaudio.datasets import VCTK
+from torchaudio.datasets import VCTK, VCTK_092
 from tqdm import tqdm
 
 from examples.speech_to_text.data_utils import save_df_to_tsv

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# 10/2021 (c) Sylvain Le Groux <syl20@cisco.com>
 
 stage=$1
 
@@ -67,6 +68,8 @@ RESULTS_PATH=${AUDIO_DATA_ROOT}/fairseq/results
 if [ $stage -eq 5 ]; then
 	python -m examples.speech_synthesis.generate_waveform ${FEATURE_MANIFEST_ROOT} \
 	--config-yaml ${CONFIG} --gen-subset ${SPLIT} --task text_to_speech \
+	--vocoder 'griffin_lim' \
 	--path ${CHECKPOINT_PATH} --max-tokens 50000 --spec-bwd-max-iter 32 \
-	--dump-waveforms --results-path ${RESULTS_PATH}
+	--dump-waveforms --dump-features --dump-plots --dump-target \
+	--results-path ${RESULTS_PATH}
 fi

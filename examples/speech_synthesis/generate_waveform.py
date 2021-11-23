@@ -17,6 +17,7 @@ from fairseq import checkpoint_utils, options, tasks, utils
 from fairseq.logging import progress_bar
 from fairseq.tasks.text_to_speech import plot_tts_output
 from fairseq.data.audio.text_to_speech_dataset import TextToSpeechDataset
+from IPython import embed
 
 
 logging.basicConfig()
@@ -139,6 +140,7 @@ def main(args):
     model = models[0].cuda() if use_cuda else models[0]
     # use the original n_frames_per_step
     task.args.n_frames_per_step = saved_cfg.task.n_frames_per_step
+
     task.load_dataset(args.gen_subset, task_cfg=saved_cfg.task)
 
     data_cfg = task.data_cfg
@@ -169,12 +171,15 @@ def main(args):
 
     Path(args.results_path).mkdir(exist_ok=True, parents=True)
     is_na_model = getattr(model, "NON_AUTOREGRESSIVE", False)
+
     dataset = task.dataset(args.gen_subset)
     vocoder = task.args.vocoder
+   
     with progress_bar.build_progress_bar(args, itr) as t:
         for sample in t:
             sample = utils.move_to_cuda(sample) if use_cuda else sample
             hypos = generator.generate(model, sample, has_targ=args.dump_target)
+            # from IPython import embed; embed()
             for result in postprocess_results(
                     dataset, sample, hypos, resample_fn, args.dump_target
             ):
